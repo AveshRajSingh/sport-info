@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
-
 const matchSchema = new mongoose.Schema({
     homeTeam: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     awayTeam: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     sport: {
         type: String,
@@ -15,11 +15,12 @@ const matchSchema = new mongoose.Schema({
     },
     startTime: {
         type: Date,
-        required: true
+        required: true,
+        index: true
     },
-    endTime:{
-        type : Date,
-        required:true
+    endTime: {
+        type: Date,
+        required: true
     },
     status: {
         type: String,
@@ -28,17 +29,13 @@ const matchSchema = new mongoose.Schema({
     },
     homeScore: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0
     },
     awayScore: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0
     }
 
 }, { timestamps: true });
-
-
-const Match = mongoose.model("Match", matchSchema);
-
-
-export default Match;
