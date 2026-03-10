@@ -17,6 +17,10 @@ const matchSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    endTime:{
+        type : Date,
+        required:true
+    },
     status: {
         type: String,
         enum: ['scheduled', 'live', 'completed'],
