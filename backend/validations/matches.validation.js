@@ -16,4 +16,7 @@ export const createMatchSchema = z.object({
 }).refine((data) => data.endTime > data.startTime, {
     message: "endTime must be after startTime",
     path: ["endTime"]
+}).refine((data) => data.homeTeam !== data.awayTeam, {
+    message: "Teams cannot be the same",
+    path: ["awayTeam"]
 });
