@@ -9,6 +9,7 @@ const app = express();
 const server = http.createServer(app);
 
 import matchRoutes from './routes/match.route.js';
+import commentryRoutes from './routes/commentry.route.js';
 
 // from this middleware we can use json 
 app.use(express.json());
@@ -23,10 +24,12 @@ const startServer = async () => {
         await connectDB(); // connect to the database 
         
         app.use('/api/matches', matchRoutes);
+        app.use('/api/commentry', commentryRoutes);
         
-        const { broadcastMatchCreated } = attachWebSocketServer(server);
+        const { broadcastMatchCreated, broadcastCommentary } = attachWebSocketServer(server);
         app.locals.broadcastMatchCreated = broadcastMatchCreated;
-        
+        app.locals.broadcastCommentary = broadcastCommentary;
+
         const PORT = process.env.PORT || 8000;
         server.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);

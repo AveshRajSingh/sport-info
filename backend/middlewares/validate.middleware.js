@@ -45,6 +45,7 @@ export const validate = (schema) => {
             req.body = result.data;
             next();
         } catch (error) {
+            console.error('Validation middleware error:', error);
             return res.status(500).json({
                 success: false,
                 message: 'Internal validation error',

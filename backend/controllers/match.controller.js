@@ -31,13 +31,32 @@ const createMatch = async (req, res) => {
     }
 };
 
-const getMatches = async (req,res) => {
+const getMatches = async (req, res) => {
     try {
-        const limit = parseInt(req.query.limit) || 10;
-        const matches = await Match.find().sort({ createdAt: -1 }).limit(limit);
-        res.json({ data: matches });
+        const { limit = 20, page = 1 } = req.query;
 
-        
+        const limitNum = Math.min(parseInt(limit) || 20, 100); // Max 100
+        const pageNum = parseInt(page) || 1;
+        const skip = (pageNum - 1) * limitNum;
+
+        const [matches, total] = await Promise.all([
+            Match.find()
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limitNum),
+            Match.countDocuments()
+        ]);
+
+        res.status(200).json({
+            data: matches,
+            pagination: {
+                total,
+                page: pageNum,
+                limit: limitNum,
+                totalPages: Math.ceil(total / limitNum)
+            }
+        });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
