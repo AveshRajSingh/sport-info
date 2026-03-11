@@ -21,3 +21,5 @@ export const updateCommentrySchema = z.object({
     eventType: z.string().min(1).optional(),
     tags: z.array(z.string()).optional()
 });
+
+export const listCommentrySchema = z.array(createCommentrySchema);

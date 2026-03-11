@@ -31,8 +31,22 @@ const createMatch = async (req, res) => {
     }
 };
 
+const getMatches = async (req,res) => {
+    try {
+        const limit = parseInt(req.query.limit) || 10;
+        const matches = await Match.find().sort({ createdAt: -1 }).limit(limit);
+        res.json({ data: matches });
+
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
 
 export {
-    createMatch
+    createMatch,
+    getMatches
 }
 
