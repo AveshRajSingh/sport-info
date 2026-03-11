@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 app.get('/',(req,res) => {
-    res.send("hello form the backend")
+    res.json({body:req.body, query :req.query, params : req.params, headers : req.headers});
 })
 const startServer = async () => {
     try {
@@ -26,5 +26,10 @@ const startServer = async () => {
         process.exit(1);
     }
 }
+
+import matchRoutes from './routes/match.route.js';
+app.use('/api/matches', matchRoutes);
+
+
 
 startServer();
